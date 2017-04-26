@@ -53,7 +53,7 @@ export default class GameCTA {
         let btnText = this._game.add.text(0, 0, 'Play Now!', this.testStyle);
         btnText.anchor.set(0.5);
         let retryBtn = null;
-        let retryText = null
+        let retryText = null;
         if (canRetry) {
           retryBtn = imageLoader.sprite(-125, 230, 'blue_button.png');
           retryBtn.anchor.set(0.5);
@@ -104,7 +104,7 @@ export default class GameCTA {
           this._game.add.tween(logo.scale).to({
             x: [1.1, 1],
             y: [1.1, 1]
-          }, 1500, Phaser.Easing.Linear.None, true, 0, -1, false)
+          }, 1500, Phaser.Easing.Linear.None, true, 0, -1, false);
         });
 
         this._game.add.tween(logo).to({
@@ -120,7 +120,7 @@ export default class GameCTA {
           this._game.add.tween(continueBtn.scale).to({
             x: [0.95, 1, 1.05, 1],
             y: [1.05, 1, 0.95, 1]
-          }, 1500, Phaser.Easing.Linear.None, true, 0, -1, false)
+          }, 1500, Phaser.Easing.Linear.None, true, 0, -1, false);
 
         });
 
@@ -132,7 +132,7 @@ export default class GameCTA {
             this._game.add.tween(retryBtn.scale).to({
               x: [0.95, 1, 1.05, 1],
               y: [1.05, 1, 0.95, 1]
-            }, 1500, Phaser.Easing.Linear.None, true, 0, -1, false)
+            }, 1500, Phaser.Easing.Linear.None, true, 0, -1, false);
           });
         }
 

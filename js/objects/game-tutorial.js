@@ -229,7 +229,7 @@ export default class GameTutorial {
       this._game.add.tween(finger.scale).to({
         x: [1,0.8,1],
         y: [1,0.8,1],
-      }, 1500, Phaser.Easing.Linear.None, true, 0, -1, false)
+      }, 1500, Phaser.Easing.Linear.None, true, 0, -1, false);
 
       gHelpPanel.add(button);
 

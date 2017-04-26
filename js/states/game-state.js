@@ -1,3 +1,4 @@
+/*jshint -W041 */
 import Globals from 'kernel/globals';
 import LU from 'display/layout-utils';
 import GameInit from 'objects/game-init';

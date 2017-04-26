@@ -591,7 +591,7 @@ class ChipView extends Phaser.Group {
       for (let i = 0; i < 5; i++) {
         this.game.time.events.add(i * 200, ()=> {
           let bubble1 = imageLoader.sprite(newPos.x, newPos.y, this._chip.color + '_bub_' + utils.random(1, 2) + '.png');
-          bubble1.scale.set(utils.random(0.8, 1.5))
+          bubble1.scale.set(utils.random(0.8, 1.5));
           this._gameView.gUI.add(bubble1);
           bubble1.anchor.set(0.5);
           bubble1.y -= this._sprite.height * 0.5;
@@ -634,11 +634,11 @@ class ChipView extends Phaser.Group {
     this._game.add.tween(circle.scale).to({
       x: 1.5,
       y: 1.5
-    }, 500, Phaser.Easing.Sinusoidal.InOut, true)
+    }, 500, Phaser.Easing.Sinusoidal.InOut, true);
 
     this._game.add.tween(circle).to({
       alpha: 0
-    }, 500, Phaser.Easing.Sinusoidal.InOut, true)
+    }, 500, Phaser.Easing.Sinusoidal.InOut, true);
 
     this._effectsGroup.add(circle);
     this._game.add.tween(this.scale).to({

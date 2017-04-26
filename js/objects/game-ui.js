@@ -1,4 +1,6 @@
 /*jshint -W041 */
+/*jshint -W083 */
+
 import LU from 'display/layout-utils';
 
 import Globals from 'kernel/globals';
@@ -11,9 +13,7 @@ export default class GameUI {
     this._recipesInfo = params.recipesInfo;
     this._gUI = this._game.add.group();
     this._view.add(this._gUI);
-    this.maxRecipes
     this._scoreTmp = 0;
-
     this.totalRecipesCount = 0;
     this.currentRecipesCount = 0;
 
@@ -78,7 +78,7 @@ export default class GameUI {
     this.uiPanel = imageLoader.sprite(0, 0, 'topBackground');
     // let scaleFactor =  LU.FULL_GAME_WIDTH / this.uiPanel.width;
     this.uiPanel.nativeWidth = this.uiPanel.width;
-    this.uiPanel.width = LU.FULL_GAME_WIDTH
+    this.uiPanel.width = LU.FULL_GAME_WIDTH;
     this._gUI.add(this.uiPanel);
 
 
@@ -108,14 +108,14 @@ export default class GameUI {
     }, 3500, Phaser.Easing.Linear.None, true, 500, -1, false);
 
     this.counter = imageLoader.sprite(0, this.uiPanel.height, 'counter.png');
-    this.counter.height*=0.65
+    this.counter.height*=0.65;
     this.counter.x = LU.FULL_GAME_WIDTH*0.5 - this.counter.width*0.5;
     this._gUI.add(this.counter);
 
 
 
     this.stewie.drink = (glass)=> {
-      this.stewie.frameName = 'stewie_drink.png'
+      this.stewie.frameName = 'stewie_drink.png';
       this.stewie.addChild(glass);
       this._game.tweens.removeFrom(this.stewie);
       this._game.add.tween(this.stewie.scale).to({
@@ -127,7 +127,7 @@ export default class GameUI {
           //  y: this.stewie.y+50,
           alpha: [1, 1, 0],
         }, 1000, Phaser.Easing.Linear.None, true, 0, 0, false);
-      })
+      });
       glass.angle = 95;
       glass.scale.set(0.5);
       glass.y = -70;
@@ -135,7 +135,7 @@ export default class GameUI {
     };
 
     this.louis.drink = (glass)=> {
-      this.louis.frameName = 'lois_drink.png'
+      this.louis.frameName = 'lois_drink.png';
       this.louis.addChild(glass);
 
       this._game.tweens.removeFrom(this.louis);
@@ -148,7 +148,7 @@ export default class GameUI {
           //   y: this.stewie.y+50
           alpha: [1, 1, 0],
         }, 1000, Phaser.Easing.Linear.None, true, 0, 0, false);
-      })
+      });
       glass.angle = 100;
       glass.scale.set(0.7);
       glass.y = -175;
@@ -156,7 +156,7 @@ export default class GameUI {
     };
 
     this.peter.drink = (glass)=> {
-      this.peter.frameName = 'peter_drink.png'
+      this.peter.frameName = 'peter_drink.png';
       this.peter.addChild(glass);
 
       this._game.tweens.removeFrom(this.peter);
@@ -168,7 +168,7 @@ export default class GameUI {
           angle: 60,
           alpha: [1, 1, 0],
         }, 1000, Phaser.Easing.Linear.None, true, 0, 0, false);
-      })
+      });
       glass.angle = 95;
       glass.scale.set(0.8);
       glass.y = -240;
@@ -182,8 +182,8 @@ export default class GameUI {
     const rCountOffsetX = 27;
     const rCountOffsetY = 5;
 
-    let colours = ['#107fff', '#34a316', '#9a22d5', '#cd0110', '#ac6800', '#f64c01']
-    let heroesToDrink = [this.stewie, this.peter, this.louis]
+    let colours = ['#107fff', '#34a316', '#9a22d5', '#cd0110', '#ac6800', '#f64c01'];
+    let heroesToDrink = [this.stewie, this.peter, this.louis];
     for (let i = 0; i < this._recipesInfo.length; i++) {
       let img = imageLoader.sprite(xPos[i], topOffset, `chip_${this._recipesInfo[i].color}_0.png`);
       img.anchor.set(0.5);
@@ -430,7 +430,7 @@ export default class GameUI {
     let counter = imageLoader.sprite(0, uiPanel.height, 'counter.png');
     this._gUI.add(counter);
     this.stewie.drink = (glass)=> {
-      this.stewie.frameName = 'stewie_drink.png'
+      this.stewie.frameName = 'stewie_drink.png';
       this.stewie.addChild(glass);
       this._game.tweens.removeFrom(this.stewie);
       this._game.add.tween(this.stewie.scale).to({
@@ -442,7 +442,7 @@ export default class GameUI {
           //  y: this.stewie.y+50,
           alpha: [1, 1, 0],
         }, 1000, Phaser.Easing.Linear.None, true, 0, 0, false);
-      })
+      });
       glass.angle = 95;
       glass.scale.set(0.5);
       glass.y = -70;
@@ -450,7 +450,7 @@ export default class GameUI {
     };
 
     this.louis.drink = (glass)=> {
-      this.louis.frameName = 'lois_drink.png'
+      this.louis.frameName = 'lois_drink.png';
       this.louis.addChild(glass);
 
       this._game.tweens.removeFrom(this.louis);
@@ -463,7 +463,7 @@ export default class GameUI {
           //   y: this.stewie.y+50
           alpha: [1, 1, 0],
         }, 1000, Phaser.Easing.Linear.None, true, 0, 0, false);
-      })
+      });
       glass.angle = 100;
       glass.scale.set(0.7);
       glass.y = -175;
@@ -471,7 +471,7 @@ export default class GameUI {
     };
 
     this.peter.drink = (glass)=> {
-      this.peter.frameName = 'peter_drink.png'
+      this.peter.frameName = 'peter_drink.png';
       this.peter.addChild(glass);
 
       this._game.tweens.removeFrom(this.peter);
@@ -483,7 +483,7 @@ export default class GameUI {
           angle: 60,
           alpha: [1, 1, 0],
         }, 1000, Phaser.Easing.Linear.None, true, 0, 0, false);
-      })
+      });
       glass.angle = 95;
       glass.scale.set(0.8);
       glass.y = -240;
@@ -498,8 +498,8 @@ export default class GameUI {
     const rCountOffsetX = 27;
     const rCountOffsetY = 5;
 
-    let colours = ['#107fff', '#34a316', '#9a22d5', '#cd0110', '#ac6800', '#f64c01']
-    let heroesToDrink = [this.stewie, this.peter, this.louis]
+    let colours = ['#107fff', '#34a316', '#9a22d5', '#cd0110', '#ac6800', '#f64c01'];
+    let heroesToDrink = [this.stewie, this.peter, this.louis];
     for (let i = 0; i < this._recipesInfo.length; i++) {
       let img = imageLoader.sprite(leftOffset + i * cellW, topOffset, `chip_${this._recipesInfo[i].color}_0.png`);
       img.anchor.set(0.5);
@@ -598,7 +598,7 @@ export default class GameUI {
           this.recipeItems[i].text.visible = false;
           this._game.time.events.add(1000, ()=>{
             this.recipeItems[i].heroes.drink(this.recipeItems[i].img);
-          })
+          });
           this._game.add.tween(this.recipeItems[i].check.scale).to({
             x: [2, 1],
             y: [2, 1]
