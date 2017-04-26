@@ -29,7 +29,6 @@ export default class PreloaderState extends Phaser.State {
     this.game.load.image('topBackground', `${root}bg.jpg`);
     this.game.load.image('background', `${root}back.jpg`);
 
-
     // Preload an random background
     imageLoader.preloadBackground();
     imageLoader.loadAtlas('assets', Globals.WEB_ROOT + '/texture_sheets/assets.png');
@@ -46,7 +45,7 @@ export default class PreloaderState extends Phaser.State {
   update() {
     if (ad_state === 'ready') {
       ad_state = 'live';
-        this.state.start('GameState');
+      this.state.start('GameState');
 
     }
   }
