@@ -123,7 +123,7 @@ export default class GameTutorial {
     });
   }
 
-  moveElements(sprite1, sprite2) {
+  moveElements(sprite1, sprite2, sprites = null) {
     this._game.time.events.add(this._game.time.timeToCall, () => {
 
       const temPos1 = {x: sprite1.x, y: sprite1.y};
@@ -166,30 +166,80 @@ export default class GameTutorial {
       this._arrow.y = sprt1InViewPos.y;
       this._gHighlight.add(this._arrow);
 
-      let twn1 = this._game.add.tween(sprite1).to({
-        x: [temPos2.x, temPos1.x],
-        y: [temPos2.y, temPos1.y],
-      }, 1000, Phaser.Easing.Sinusoidal.Out, true, 0, -1, false);
+      if (sprites == null) {
+        let twn1 = this._game.add.tween(sprite1).to({
+          x: [temPos2.x, temPos1.x],
+          y: [temPos2.y, temPos1.y],
+        }, 1000, Phaser.Easing.Sinusoidal.Out, true, 0, -1, false);
 
-      let twn2 = this._game.add.tween(this._arrow).to({
-        x: [sprt2InViewPos.x, sprt1InViewPos.x],
-        y: [sprt2InViewPos.y, sprt1InViewPos.y],
-      }, 1000, Phaser.Easing.Sinusoidal.Out, true, 0, -1, false);
+        let twn2 = this._game.add.tween(this._arrow).to({
+          x: [sprt2InViewPos.x, sprt1InViewPos.x],
+          y: [sprt2InViewPos.y, sprt1InViewPos.y],
+        }, 1000, Phaser.Easing.Sinusoidal.Out, true, 0, -1, false);
 
-      let twn3 = this._game.add.tween(this._arrow.scale).to({
-        x: 1,
-        y: 1
-      }, 1500, Phaser.Easing.Elastic.Out, true, 500, 0, false);
+        let twn3 = this._game.add.tween(this._arrow.scale).to({
+          x: 1,
+          y: 1
+        }, 1500, Phaser.Easing.Elastic.Out, true, 500, 0, false);
 
-      let twn4 = this._game.add.tween(sprite2).to({
-        x: [temPos1.x, temPos2.x],
-        y: [temPos1.y, temPos2.y],
-      }, 1000, Phaser.Easing.Sinusoidal.Out, true, 0, -1, false);
+        let twn4 = this._game.add.tween(sprite2).to({
+          x: [temPos1.x, temPos2.x],
+          y: [temPos1.y, temPos2.y],
+        }, 1000, Phaser.Easing.Sinusoidal.Out, true, 0, -1, false);
 
-      this._cachedTweens.push(twn1);
-      this._cachedTweens.push(twn2);
-      this._cachedTweens.push(twn3);
-      this._cachedTweens.push(twn4);
+        this._cachedTweens.push(twn1);
+        this._cachedTweens.push(twn2);
+        this._cachedTweens.push(twn3);
+        this._cachedTweens.push(twn4);
+      }
+      else {
+        let spritesX = [];
+        let spritesY = [];
+        let spritesScale = [];
+        for (let i = 0; i < sprites.length; i++) {
+          let view = sprites[i].slot.currentChip.view;
+          let x = view.worldPosition.x + 30;
+          let y = view.worldPosition.y + 30;
+          let targetPos = this._game.input.getLocalPosition(this._view, new Phaser.Point(x, y));
+
+          spritesX.push(targetPos.x);
+          spritesY.push(targetPos.y);
+          spritesScale.push(1);
+          spritesScale.push(1);
+          spritesScale.push(0.9);
+          spritesScale.push(1);
+        }
+
+        spritesX = spritesX.concat(spritesX.slice(0).reverse())
+        spritesY = spritesY.concat(spritesY.slice(0).reverse())
+        spritesScale = spritesScale.concat(spritesScale.slice(0).reverse())
+        spritesScale[spritesScale.length - 1] = 1;
+        this._arrow.scale.set(1);
+        this._arrow.x = spritesX[0];
+        this._arrow.y = spritesY[0];
+
+        let twn = this._game.add.tween(this._arrow).to({
+          x: spritesX,
+          y: spritesY,
+        }, 5000, Phaser.Easing.Linear.None, true, 0, -1, false);
+
+        let twn3 = this._game.add.tween(this._arrow.scale).to({
+          x: spritesScale,
+          y: spritesScale,
+        }, 5000, Phaser.Easing.Linear.None, true, 0, -1, false);
+
+
+        // let twn2 = this._game.add.tween(this._arrow.scale).to({
+        //   x: 1,
+        //   y: 1
+        // }, 1500, Phaser.Easing.Elastic.Out, true, 500, 0, false);
+        this._cachedTweens.push(twn);
+        // this._cachedTweens.push(twn2);
+        this._cachedTweens.push(twn3);
+
+
+      }
+
     });
   }
 
@@ -197,7 +247,7 @@ export default class GameTutorial {
     this._game.time.events.add(this._game.time.timeToCall + 200, () => {
 
       let gHelpPanel = this._game.add.group();
-      gHelpPanel.y-=LU.FULL_GAME_HEIGHT*LP(0.4, 0.3);
+      gHelpPanel.y -= LU.FULL_GAME_HEIGHT * LP(0.4, 0.3);
       let backPanel = imageLoader.sprite(LU.FULL_GAME_WIDTH * 0.5, LU.FULL_GAME_HEIGHT, 'tutorial_back.png');
 
       backPanel.anchor.set(0.5);
@@ -206,7 +256,7 @@ export default class GameTutorial {
       gHelpPanel.add(backPanel);
 
       let button = imageLoader.sprite(LU.FULL_GAME_WIDTH * 0.5, LU.FULL_GAME_HEIGHT, 'button.png');
-      button.y+=button.height;
+      button.y += button.height;
       button.anchor.set(0.5);
 
       let textStype0 = {
@@ -223,12 +273,12 @@ export default class GameTutorial {
       continueTxt.anchor.set(0.5);
       button.addChild(continueTxt);
 
-      let finger = imageLoader.sprite(button.width*0.5-40, button.height*0.5-40, 'hand.png');
+      let finger = imageLoader.sprite(button.width * 0.5 - 40, button.height * 0.5 - 40, 'hand.png');
       button.addChild(finger);
 
       this._game.add.tween(finger.scale).to({
-        x: [1,0.8,1],
-        y: [1,0.8,1],
+        x: [1, 0.8, 1],
+        y: [1, 0.8, 1],
       }, 1500, Phaser.Easing.Linear.None, true, 0, -1, false);
 
       gHelpPanel.add(button);
@@ -267,10 +317,10 @@ export default class GameTutorial {
     leftOriented = true;
     this._game.time.events.add(this._game.time.timeToCall + 200, () => {
       let gHelpPanel = this._game.add.group();
-      let backPanel = imageLoader.sprite(LU.FULL_GAME_WIDTH * 0.5, LU.FULL_GAME_HEIGHT * (LP(0.55,1)), 'tutorial_back.png');
+      let backPanel = imageLoader.sprite(LU.FULL_GAME_WIDTH * 0.5, LU.FULL_GAME_HEIGHT * (LP(0.55, 1)), 'tutorial_back.png');
 
       backPanel.anchor.set(0.5);
-      backPanel.y -= backPanel.height * 0.48 - LU.TOP_OFFSET+6;
+      backPanel.y -= backPanel.height * 0.48 - LU.TOP_OFFSET + 6;
 
       gHelpPanel.add(backPanel);
 

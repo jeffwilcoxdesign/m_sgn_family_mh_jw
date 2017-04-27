@@ -538,9 +538,8 @@ export default class GameUI {
     // this.scoreText = this._game.add.text(480, 10, '1000', this.testStylePortrait3);
     // this.scoreText.setTextBounds(0, 0, 125, 50);
     // this._gUI.add(this.scoreText);
-
-
   }
+
 
   getRecipeView(number) {
     if (this.recipeItems.length != 0)

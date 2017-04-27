@@ -88,13 +88,14 @@ class TutorialAction extends Action {
     let targetSprite1 = this.findMove.slot1.currentChip.view;
     let targetSprite2 = this.findMove.slot2.currentChip.view;
 
+      console.log(this.findMove)
     let slotViews = [this.findMove.slot1.currentChip.view, this.findMove.slot2.currentChip.view];
     for (let result of this.findMove.result) {
       slotViews.push(result.slot.currentChip.view);
     }
 
     this._tutorialView.highlightField(slotViews);
-    this._tutorialView.moveElements(targetSprite1, targetSprite2);
+    this._tutorialView.moveElements(targetSprite1, targetSprite2, this.m3e.level.gameSettings.inputType == 'tap'? this.findMove.result: null);
     this._tutorialView.drawHelpPanel(targetSprite1, ['Tips', 'Match 3 of the same gems\n to collect them!'], true, ()=> {
       this._canInput = true;
     });

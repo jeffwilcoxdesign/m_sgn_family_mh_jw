@@ -542,7 +542,7 @@ class ChipView extends Phaser.Group {
     this.y += this._viewSettings.slot.height * 0.5;
     this.scale.x = this._viewSettings.chip.viewScale.x * 0.01;
     this.scale.y = this._viewSettings.chip.viewScale.y * 0.01;
-
+    this._nativeScale = this.scale.x;
     this._group.add(this);
 
     if (this.debugMode) {
@@ -700,7 +700,7 @@ class ChipView extends Phaser.Group {
   }
 
   setNewType(cb) {
-    let nativeScale = this.scale.x;
+    // let nativeScale = this.scale.x;
     // if (this._viewSettings.useEffects) {
     //   let effect = imageLoader.sprite(this.x, this.y, 'splash.png');
     //   this._group.add(effect);
@@ -728,15 +728,16 @@ class ChipView extends Phaser.Group {
     //
     //   emitter.start(true, 500, null, 5);
     // }
+   // this.game.tweens.removeFrom(this);
     this._game.add.tween(this.scale).to({
       x: 0,
       y: 0
     }, 100, Phaser.Easing.Sinusoidal.InOut, true).onComplete.add(() => {
       this._sprite.frameName = `chip_${this._chip.mColor}_${this._chip.mType}.png`;
       this._game.add.tween(this.scale).to({
-        x: nativeScale,
-        y: nativeScale
-      }, 200, Phaser.Easing.Linear.None, true);
+        x: this._nativeScale,
+        y: this._nativeScale
+      }, 100, Phaser.Easing.Linear.None, true);
     });
     this._game.time.events.add(300, () => {
       cb();
@@ -800,46 +801,46 @@ class ChipView extends Phaser.Group {
     }
   }
 
-  moveFoxTo(target, cb) {
+  // moveFoxTo(target, cb) {
+  //
+  //   this._sprite.animations.play('move', 29).onComplete.add(() => {
+  //     this._sprite.animations.play('idle', 11, true);
+  //   });
+  //   this._game.add.tween(this).to({
+  //     x: target.view.x,
+  //     y: target.view.y
+  //   }, 600, Phaser.Easing.Sinusoidal.Out, true, 1, 0, false).onComplete.add(() => {
+  //     cb();
+  //   });
+  // }
+  //
+  // setFoxHappy() {
+  //   this._sprite.animations.play('howl', 20).onComplete.add(() => {
+  //     this._sprite.animations.play('happy1', 8).onComplete.add(() => {
+  //       this._sprite.animations.play('happy2', 12, true);
+  //     });
+  //   });
+  // }
 
-    this._sprite.animations.play('move', 29).onComplete.add(() => {
-      this._sprite.animations.play('idle', 11, true);
-    });
-    this._game.add.tween(this).to({
-      x: target.view.x,
-      y: target.view.y
-    }, 600, Phaser.Easing.Sinusoidal.Out, true, 1, 0, false).onComplete.add(() => {
-      cb();
-    });
-  }
-
-  setFoxHappy() {
-    this._sprite.animations.play('howl', 20).onComplete.add(() => {
-      this._sprite.animations.play('happy1', 8).onComplete.add(() => {
-        this._sprite.animations.play('happy2', 12, true);
-      });
-    });
-  }
-
-  moveToSlot(target, cb) {
-
-    if (this._chip.type == 8) {
-      this._game.add.tween(this.effect1).to({
-        x: target.view.x,
-        y: target.view.y
-      }, 600, Phaser.Easing.Sinusoidal.Out, true, 1, 0, false);
-      this._game.add.tween(this.effect2).to({
-        x: target.view.x,
-        y: target.view.y
-      }, 600, Phaser.Easing.Sinusoidal.Out, true, 1, 0, false);
-    }
-    this._game.add.tween(this).to({
-      x: target.view.x,
-      y: target.view.y
-    }, 600, Phaser.Easing.Sinusoidal.Out, true, 1, 0, false).onComplete.add(() => {
-      cb();
-    });
-  }
+  // moveToSlot(target, cb) {
+  //
+  //   if (this._chip.type == 8) {
+  //     this._game.add.tween(this.effect1).to({
+  //       x: target.view.x,
+  //       y: target.view.y
+  //     }, 600, Phaser.Easing.Sinusoidal.Out, true, 1, 0, false);
+  //     this._game.add.tween(this.effect2).to({
+  //       x: target.view.x,
+  //       y: target.view.y
+  //     }, 600, Phaser.Easing.Sinusoidal.Out, true, 1, 0, false);
+  //   }
+  //   this._game.add.tween(this).to({
+  //     x: target.view.x,
+  //     y: target.view.y
+  //   }, 600, Phaser.Easing.Sinusoidal.Out, true, 1, 0, false).onComplete.add(() => {
+  //     cb();
+  //   });
+  // }
 
   updateView() {
     if (this._chip.mType === 7) return;
@@ -853,8 +854,8 @@ class ChipView extends Phaser.Group {
       angle: [-15, 0, 15, 0, -15, 0, 15, 0]
     }, 1500, Phaser.Easing.Sinusoidal.InOut, true, 1, 0, false);
     this._game.add.tween(this.scale).to({
-      x: [this.scale.x * 1.1, this.scale.x],
-      y: [this.scale.y * 1.1, this.scale.y]
+      x: [this._nativeScale * 1.1, this._nativeScale],
+      y: [this._nativeScale * 1.1, this._nativeScale]
     }, 1500, Phaser.Easing.Sinusoidal.InOut, true, 1, 0, false);
   }
 

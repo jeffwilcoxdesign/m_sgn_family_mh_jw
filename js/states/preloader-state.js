@@ -21,6 +21,7 @@ export default class PreloaderState extends Phaser.State {
     LU.refreshViewDimmensions();
   }
 
+
   preload() {
     imageLoader.registerGame(this.game);
 
