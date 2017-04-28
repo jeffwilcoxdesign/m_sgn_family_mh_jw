@@ -10,6 +10,7 @@ let gulpCopy = require('gulp-copy');
 let gulpif = require('gulp-if');
 let exorcist = require('exorcist');
 let babelify = require('babelify');
+let insert = require('gulp-insert');
 let browserify = require('browserify');
 let browserSync = require('browser-sync');
 let fs = require('fs');
@@ -32,6 +33,7 @@ let info = JSON.parse(fs.readFileSync('./package.json'));
 let creativeInfo = JSON.parse(fs.readFileSync('./creative.json'));
 
 let AD_EXTRA_FONTS = creativeInfo.extra_fonts;
+let CSS_FONTS = creativeInfo.css_fonts;
 let AD_GETAPP_INSTEAD_OF_TITLE = creativeInfo.getapp_instead_of_title;
 let AD_ICON = creativeInfo.icon;
 
@@ -56,12 +58,12 @@ let config = {
   entries: ENTRY_FILE,
   debug: true,
   transform: [
-      [
-        babelify, {
-        presets: ["es2015"]
-        }
-      ]
+    [
+      babelify, {
+      presets: ["es2015"]
+    }
     ]
+  ]
 };
 let opts = assign({}, watchify.args, config);
 //let bundler = watchify(browserify(opts));
@@ -84,13 +86,13 @@ function lint() {
     return null;
 
   return gulp.src(SOURCE_PATH + '/**/*.js')
-    .pipe(jshint({
-      esversion: 6,
-      debug: true
-    }))
-    .pipe(jshint.reporter('jshint-stylish', {
-      beep: true
-    }));
+      .pipe(jshint({
+        esversion: 6,
+        debug: true
+      }))
+      .pipe(jshint.reporter('jshint-stylish', {
+        beep: true
+      }));
 }
 
 function cleanBuild() {
@@ -102,57 +104,62 @@ function cleanBuild() {
   }
 
   return gulp.src(BUILD_PATH + '**/*.*', {
-      read: false,
-    })
-    .pipe(gulpif(erase, clean({
-      force: true
-    })));
+    read: false,
+  })
+      .pipe(gulpif(erase, clean({
+        force: true
+      })));
 }
 
 function copyStatic() {
   var s0 = gulp.src(IMG_PATH)
-    .pipe(gulp.dest(BUILD_PATH));
+      .pipe(gulp.dest(BUILD_PATH));
 
   // Backgrounds and icon
   var s1 = gulp.src(IMG_PATH + '/backgrounds/*.jpg')
-    .pipe(gulpif(isProduction(),
-      tinypng({
+      .pipe(gulpif(isProduction(),
+          tinypng({
+            key: TINY_PNG_API_KEY,
+            log: true,
+            summarise: true,
+          })
+      ))
+      .pipe(gulp.dest(BUILD_PATH + '/img/backgrounds'));
+
+  var s2 = gulp.src(ICON_PATH)
+      .pipe(gulpif(isProduction(), tinypng({
         key: TINY_PNG_API_KEY,
         log: true,
         summarise: true,
-      })
-    ))
-    .pipe(gulp.dest(BUILD_PATH + '/img/backgrounds'));
-
-  var s2 = gulp.src(ICON_PATH)
-    .pipe(gulpif(isProduction(), tinypng({
-      key: TINY_PNG_API_KEY,
-      log: true,
-      summarise: true,
-    })))
-    .pipe(gulp.dest(BUILD_PATH + '/img'));
+      })))
+      .pipe(gulp.dest(BUILD_PATH + '/img'));
 
   // Atlases
   var s3 = gulp.src(ATLAS_PATH + '/*.png')
-    .pipe(gulpif(isProduction(), tinypng({
-      key: TINY_PNG_API_KEY,
-      log: true,
-      summarise: true,
-    })))
-    .pipe(gulp.dest(BUILD_PATH + '/texture_sheets'));
+      .pipe(gulpif(isProduction(), tinypng({
+        key: TINY_PNG_API_KEY,
+        log: true,
+        summarise: true,
+      })))
+      .pipe(gulp.dest(BUILD_PATH + '/texture_sheets'));
 
   var s4 = gulp.src(ATLAS_PATH + '/*.json')
-    .pipe(gulpCopy(BUILD_PATH + '/texture_sheets/', {
-      prefix: 1
-    }));
+      .pipe(gulpCopy(BUILD_PATH + '/texture_sheets/', {
+        prefix: 1
+      }));
 
   // CSS
+  let fonts = '';
+  for (let font of CSS_FONTS) {
+    fonts += `@font-face {font-family: '${font}'; src: url('${font}.ttf');  format('truetype')}`;
+  }
   var s5 = gulp.src(GLOBAL_PATH + '/css/mraid_wrapper.css')
-    .pipe(cssmin())
-    .pipe(rename({
-      suffix: '.min'
-    }))
-    .pipe(gulp.dest(BUILD_PATH + '/css'));
+      .pipe(insert.append(fonts))
+      .pipe(cssmin())
+      .pipe(rename({
+        suffix: '.min'
+      }))
+      .pipe(gulp.dest(BUILD_PATH + '/css'));
 
   let tmpl = {
     ad_title: creativeInfo.name,
@@ -164,25 +171,29 @@ function copyStatic() {
   };
 
   var s7 = gulp.src(GLOBAL_PATH + '/tags/*.html')
-    .pipe(template(tmpl))
-    .pipe(gulp.dest(BUILD_PATH));
+      .pipe(template(tmpl))
+      .pipe(gulp.dest(BUILD_PATH));
+  // ttf
+  var s8 = gulp.src(ATLAS_PATH + '/*.ttf')
+      .pipe(gulp.dest(BUILD_PATH + '/css'));
 
-  return merge(s0, s1, s2, s3, s4, s5, s7);
+  return merge(s0, s1, s2, s3, s4, s5, s7, s8);
 }
+
 
 function preBuild() {
   var sourcemapPath = SCRIPTS_PATH + '/' + OUTPUT_FILE + '.map';
 
   return bundler.bundle().on('error', function(error) {
-      gutil.log(gutil.colors.red('[Build Error]', error.message));
-      this.emit('end');
-    })
-    .pipe(gulpif(!isProduction(), exorcist(sourcemapPath)))
-    .pipe(source(CREATIVE_TMP_NAME))
-    .pipe(buffer())
-    .pipe(gulpif(isProduction(), stripDebug()))
-    .pipe(gulpif(isProduction(), uglify()))
-    .pipe(gulp.dest(SCRIPTS_PATH));
+    gutil.log(gutil.colors.red('[Build Error]', error.message));
+    this.emit('end');
+  })
+      .pipe(gulpif(!isProduction(), exorcist(sourcemapPath)))
+      .pipe(source(CREATIVE_TMP_NAME))
+      .pipe(buffer())
+      .pipe(gulpif(isProduction(), stripDebug()))
+      .pipe(gulpif(isProduction(), uglify()))
+      .pipe(gulp.dest(SCRIPTS_PATH));
 }
 
 function build() {
@@ -202,39 +213,39 @@ function build() {
   var stream = null;
   if (isProduction()) {
     stream = gulp.src(libs)
-      .pipe(tap(function(file) {
-        if (path.dirname(file.path).match('embed')) {
-          file.contents = Buffer.concat([
-            new Buffer('embedded[\'' + path.basename(file.path).replace('.json', '') + '\'] = '),
-            file.contents,
-            new Buffer(';')
-          ]);
-        }
-      }))
-      .pipe(concat('code.js'))
-      .pipe(buffer())
-      .pipe(uglify())
-      .pipe(gulp.dest(BUILD_PATH + '/js/'));
+        .pipe(tap(function(file) {
+          if (path.dirname(file.path).match('embed')) {
+            file.contents = Buffer.concat([
+              new Buffer('embedded[\'' + path.basename(file.path).replace('.json', '') + '\'] = '),
+              file.contents,
+              new Buffer(';')
+            ]);
+          }
+        }))
+        .pipe(concat('code.js'))
+        .pipe(buffer())
+        .pipe(uglify())
+        .pipe(gulp.dest(BUILD_PATH + '/js/'));
   } else {
     stream = gulp.src(libs)
-      .pipe(sourcemaps.init({
-        loadMaps: true
-      }))
-      .pipe(tap(function(file) {
-        if (path.dirname(file.path).match('embed')) {
-          file.contents = Buffer.concat([
-            new Buffer('embedded[\'' + path.basename(file.path).replace('.json', '') + '\'] = '),
-            file.contents,
-            new Buffer(';')
-          ]);
-        }
-      }))
-      .pipe(concat('code.js'))
-      .pipe(sourcemaps.write('.', {
-        addComment: true,
-        sourceRoot: SCRIPTS_PATH + '/'
-      }))
-      .pipe(gulp.dest(BUILD_PATH + 'js/'));
+        .pipe(sourcemaps.init({
+          loadMaps: true
+        }))
+        .pipe(tap(function(file) {
+          if (path.dirname(file.path).match('embed')) {
+            file.contents = Buffer.concat([
+              new Buffer('embedded[\'' + path.basename(file.path).replace('.json', '') + '\'] = '),
+              file.contents,
+              new Buffer(';')
+            ]);
+          }
+        }))
+        .pipe(concat('code.js'))
+        .pipe(sourcemaps.write('.', {
+          addComment: true,
+          sourceRoot: SCRIPTS_PATH + '/'
+        }))
+        .pipe(gulp.dest(BUILD_PATH + 'js/'));
   }
 
   return stream;
@@ -243,7 +254,7 @@ function build() {
 function removeTmp() {
   if (isProduction()) {
     return gulp.src(SCRIPTS_PATH + '/' + CREATIVE_TMP_NAME)
-      .pipe(clean({ force: true }));
+        .pipe(clean({ force: true }));
   }
 }
 

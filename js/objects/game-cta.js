@@ -8,7 +8,7 @@ export default class GameCTA {
     this._view.x = LU.LEFT_OFFSET;
     this._view.y = LU.TOP_OFFSET;
     this.testStyle = {
-      font: "45px Fresca",
+      font: "45px fresca",
       fill: '#ffffff',
       boundsAlignH: "center",
       boundsAlignV: "middle",

@@ -86,7 +86,7 @@ class GameState extends Phaser.State {
 
   onResize() {
     // Reconfigure layout to match viewport size
-    LU.RENDER_RESOLUTION = Math.max(0.5,1 / LU.getDevicePixelRatio());
+    LU.RENDER_RESOLUTION = Math.max(1,1 / LU.getDevicePixelRatio());
     LU.refreshViewDimmensions();
 
     // VIEW_WIDTH and VIEW_HEIGHT are in 1:1 space

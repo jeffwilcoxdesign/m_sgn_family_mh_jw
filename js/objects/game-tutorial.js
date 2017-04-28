@@ -193,40 +193,23 @@ export default class GameTutorial {
         this._cachedTweens.push(twn4);
       }
       else {
-        let spritesX = [];
-        let spritesY = [];
-        let spritesScale = [];
-        for (let i = 0; i < sprites.length; i++) {
-          let view = sprites[i].slot.currentChip.view;
-          let x = view.worldPosition.x + 30;
-          let y = view.worldPosition.y + 30;
-          let targetPos = this._game.input.getLocalPosition(this._view, new Phaser.Point(x, y));
+        let view = sprites[1].slot.currentChip.view;
+        let x = view.worldPosition.x+30;
+        let y = view.worldPosition.y;
+        let targetPos = this._game.input.getLocalPosition(this._view, new Phaser.Point(x, y));
 
-          spritesX.push(targetPos.x);
-          spritesY.push(targetPos.y);
-          spritesScale.push(1);
-          spritesScale.push(1);
-          spritesScale.push(0.9);
-          spritesScale.push(1);
-        }
-
-        spritesX = spritesX.concat(spritesX.slice(0).reverse())
-        spritesY = spritesY.concat(spritesY.slice(0).reverse())
-        spritesScale = spritesScale.concat(spritesScale.slice(0).reverse())
-        spritesScale[spritesScale.length - 1] = 1;
+        this._arrow.x = targetPos.x;
+        this._arrow.y = targetPos.y;
         this._arrow.scale.set(1);
-        this._arrow.x = spritesX[0];
-        this._arrow.y = spritesY[0];
+        // let twn = this._game.add.tween(this._arrow).to({
+        //   x: spritesX,
+        //   y: spritesY,
+        // }, 5000, Phaser.Easing.Linear.None, true, 0, -1, false);
 
-        let twn = this._game.add.tween(this._arrow).to({
-          x: spritesX,
-          y: spritesY,
-        }, 5000, Phaser.Easing.Linear.None, true, 0, -1, false);
-
-        let twn3 = this._game.add.tween(this._arrow.scale).to({
-          x: spritesScale,
-          y: spritesScale,
-        }, 5000, Phaser.Easing.Linear.None, true, 0, -1, false);
+        let twn = this._game.add.tween(this._arrow.scale).to({
+          x: [0.8,1],
+          y: [0.8,1],
+        }, 1500, Phaser.Easing.Linear.None, true, 0, -1, false);
 
 
         // let twn2 = this._game.add.tween(this._arrow.scale).to({
@@ -235,7 +218,6 @@ export default class GameTutorial {
         // }, 1500, Phaser.Easing.Elastic.Out, true, 500, 0, false);
         this._cachedTweens.push(twn);
         // this._cachedTweens.push(twn2);
-        this._cachedTweens.push(twn3);
 
 
       }
@@ -260,7 +242,7 @@ export default class GameTutorial {
       button.anchor.set(0.5);
 
       let textStype0 = {
-        font: "50px Fresca",
+        font: "50px fresca",
         fill: '#ffffff',
         boundsAlignH: "center",
         boundsAlignV: "middle",
@@ -290,7 +272,7 @@ export default class GameTutorial {
       }, 400, Phaser.Easing.Sinusoidal.InOut).delay(600).start();
 
       let textStype1 = {
-        font: "35px Fresca",
+        font: "35px fresca",
         fill: '#000000',
         boundsAlignH: "center",
         boundsAlignV: "middle",
@@ -331,7 +313,7 @@ export default class GameTutorial {
       }, 400, Phaser.Easing.Sinusoidal.InOut).delay(600).start();
 
       let textStype1 = {
-        font: "35px Fresca",
+        font: "35px fresca",
         fill: '#000000',
         boundsAlignH: "center",
         boundsAlignV: "middle",

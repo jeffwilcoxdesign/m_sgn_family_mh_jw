@@ -19,7 +19,7 @@ export default class GameUI {
 
 
     this.recipesTextStyle = {
-      font: "30px Fresca",
+      font: "30px fresca",
       fill: '#000000',
       boundsAlignH: "center",
       boundsAlignV: "middle",
@@ -27,7 +27,7 @@ export default class GameUI {
     };
 
     this.movesTextStyle = {
-      font: "30px Fresca",
+      font: "30px fresca",
       fill: '#ffffff',
       boundsAlignH: "center",
       boundsAlignV: "middle",
@@ -35,7 +35,7 @@ export default class GameUI {
     };
 
     this.movesCountTextStyle = {
-      font: "70px Fresca",
+      font: "70px fresca",
       fill: '#000000',
       boundsAlignH: "center",
       boundsAlignV: "middle",

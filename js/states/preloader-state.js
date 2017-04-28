@@ -1,6 +1,19 @@
 import Globals from 'kernel/globals';
 import LU from 'display/layout-utils';
 
+import {css_fonts} from '../../creative.json';
+
+Globals.font = 'fresca';
+window.WebFontConfig = {
+  active: () => {
+    Globals.FONT_IS_LOADED = true;
+  },
+  custom: {
+    families: css_fonts,
+    urls: ['./css/mraid_wrapper.min.css']
+  }
+};
+
 export default class PreloaderState extends Phaser.State {
   init() {
     this.stage.backgroundColor = "#010101";
@@ -23,6 +36,7 @@ export default class PreloaderState extends Phaser.State {
 
 
   preload() {
+    this.game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
     imageLoader.registerGame(this.game);
 
     let root = Globals.WEB_ROOT + '/img/backgrounds/';

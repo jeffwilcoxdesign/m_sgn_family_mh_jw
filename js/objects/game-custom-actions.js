@@ -84,11 +84,8 @@ class TutorialAction extends Action {
     else {
       this.findMove = possibleMoves[Utils.random(0, possibleMoves.length - 1)];
     }
-
     let targetSprite1 = this.findMove.slot1.currentChip.view;
     let targetSprite2 = this.findMove.slot2.currentChip.view;
-
-      console.log(this.findMove)
     let slotViews = [this.findMove.slot1.currentChip.view, this.findMove.slot2.currentChip.view];
     for (let result of this.findMove.result) {
       slotViews.push(result.slot.currentChip.view);
