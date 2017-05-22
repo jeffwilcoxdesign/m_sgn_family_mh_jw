@@ -195,9 +195,6 @@ export default class GameInit {
       recipesInfo: this._e.level.gameType.recipesInfo,
     });
 
-    this._gameView._uiView.updateScore(this._e.currentScore);
-    this._gameView._uiView.updateMoves(this._e.currentMoves);
-
     this._e.level.cbUpdateScoreUI = (value) => {
       this._gameView._uiView.updateScore(value);
     };
@@ -211,6 +208,8 @@ export default class GameInit {
     };
 
     this._gameView.fitUIView();
+    this._gameView._uiView.updateScore(this._e.currentScore);
+    this._gameView._uiView.updateMoves(this._e.currentMoves);
   }
 
   initInputEvents(gameView) {

@@ -297,7 +297,7 @@ export default class GameUI {
     this._gUI.add(m);
 
     m.setTextBounds(0, 0, 125, 30);
-    this.movesText = this._game.add.text(-5, 17, '25', this.movesCountTextStyle);
+    this.movesText = this._game.add.text(-5, 17, '0', this.movesCountTextStyle);
     this.movesText.addFontWeight('bold', 0);
 
 
