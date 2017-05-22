@@ -18,7 +18,7 @@ class GameState extends Phaser.State {
       max_moves: {type: 'int', default: 25},
       max_colors: {type: 'int', default: 5},
       max_score: {type: 'int', default: 0},
-      input_type: {type: 'string', default: 'swipe'}, // can be 'tap' or 'swipe
+      input_type: {type: 'string', default: 'swipe'}, // can be 'tap' or 'swipe'
       game_type_pattern:  {type: 'string', default: 'recipe,0|4|2-10,0|1|2-10,0|0|2-10'}, // game type ,if recipe (6 - type, 0-color,1-1 min and max value for random)
       score_add_by_chip: {type: 'int', default: 10},
       highligh_helper_time: {type: 'int', default: 5},
