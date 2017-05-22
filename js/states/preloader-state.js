@@ -41,11 +41,10 @@ export default class PreloaderState extends Phaser.State {
 
     let root = Globals.WEB_ROOT + '/img/backgrounds/';
 
-    this.game.load.image('topBackground', `${root}bg.jpg`);
-    this.game.load.image('background', `${root}back.jpg`);
+    imageLoader.loadImage('topBackground', `${root}bg.jpg`);
+    imageLoader.loadImage('background', `${root}back.jpg`);
 
     // Preload an random background
-    imageLoader.preloadBackground();
     imageLoader.loadAtlas('assets', Globals.WEB_ROOT + '/texture_sheets/assets.png');
   }
 
