@@ -82,6 +82,12 @@ export default class GameUI {
     this._gUI.add(this.uiPanel);
 
 
+    let xPositions = [
+      [this.uiPanel.width * 0.5],
+      [this.uiPanel.width * 0.3, this.uiPanel.width * 0.7],
+      [this.uiPanel.width * 0.5, this.uiPanel.width * 0.2, this.uiPanel.width * 0.8]
+    ];
+
     this.peter = imageLoader.sprite(this.uiPanel.width * 0.5, 300, 'peter_normal.png');
     this._game.add.tween(this.peter).to({
       angle: [-5, 0, 5, 0]
@@ -90,28 +96,31 @@ export default class GameUI {
     this.peter.anchor.setTo(0.5, 1);
     this._gUI.add(this.peter);
 
-    this.stewie = imageLoader.sprite(this.uiPanel.width * 0.2, 280, 'stewie_normal.png');
-    this.stewie.anchor.setTo(0.5, 1);
-    this._gUI.add(this.stewie);
+    if (this._recipesInfo.length > 1) {
+      this.stewie = imageLoader.sprite(this.uiPanel.width * 0.2, 280, 'stewie_normal.png');
+      this.stewie.anchor.setTo(0.5, 1);
+      this._gUI.add(this.stewie);
 
-    this._game.add.tween(this.stewie).to({
-      angle: [-4, 0, 4, 0]
-    }, 4000, Phaser.Easing.Linear.None, true, 750, -1, false);
+      this._game.add.tween(this.stewie).to({
+        angle: [-4, 0, 4, 0]
+      }, 4000, Phaser.Easing.Linear.None, true, 750, -1, false);
+    }
 
 
-    this.louis = imageLoader.sprite(this.uiPanel.width * 0.8, 300, 'lois_normal.png');
-    this.louis.anchor.setTo(0.5, 1);
-    this._gUI.add(this.louis);
+    if (this._recipesInfo.length > 3) {
+      this.louis = imageLoader.sprite(this.uiPanel.width * 0.8, 300, 'lois_normal.png');
+      this.louis.anchor.setTo(0.5, 1);
+      this._gUI.add(this.louis);
 
-    this._game.add.tween(this.louis).to({
-      angle: [-3, 0, 3, 0]
-    }, 3500, Phaser.Easing.Linear.None, true, 500, -1, false);
+      this._game.add.tween(this.louis).to({
+        angle: [-3, 0, 3, 0]
+      }, 3500, Phaser.Easing.Linear.None, true, 500, -1, false);
+    }
 
     this.counter = imageLoader.sprite(0, this.uiPanel.height, 'counter.png');
-    this.counter.height*=0.65;
-    this.counter.x = LU.FULL_GAME_WIDTH*0.5 - this.counter.width*0.5;
+    this.counter.height *= 0.65;
+    this.counter.x = LU.FULL_GAME_WIDTH * 0.5 - this.counter.width * 0.5;
     this._gUI.add(this.counter);
-
 
 
     this.stewie.drink = (glass)=> {
@@ -196,7 +205,7 @@ export default class GameUI {
       score_disc.anchor.set(0.5);
       this._gUI.add(score_disc);
 
-      let check = imageLoader.sprite(xPos[i]+ rCountOffsetX, topOffset + rCountOffsetY, `check.png`);
+      let check = imageLoader.sprite(xPos[i] + rCountOffsetX, topOffset + rCountOffsetY, `check.png`);
       check.x += 15;
       check.y += 15;
       check.anchor.set(0.5);
@@ -224,11 +233,11 @@ export default class GameUI {
     this.uiPanel.y -= this.uiPanel.height * (uiBackScaleFactor);
     this.uiPanel.height *= 1 + uiBackScaleFactor;
 
-    let counterLeft = imageLoader.sprite(-this.counter.width,0, 'counter.png');
+    let counterLeft = imageLoader.sprite(-this.counter.width, 0, 'counter.png');
 
     this.counter.addChild(counterLeft);
 
-    let counterRight= imageLoader.sprite(this.counter.width,0, 'counter.png');
+    let counterRight = imageLoader.sprite(this.counter.width, 0, 'counter.png');
 
     this.counter.addChild(counterRight);
     // let scaleFactor =  LU.FULL_GAME_WIDTH / this.uiPanel.width;
@@ -396,13 +405,17 @@ export default class GameUI {
     LP(this.lateUIDrawLandscape, this.lateUIDrawPortrait).apply(this);
   }
 
-
   initUIPortrait() {
     let uiPanel = imageLoader.sprite(0, 0, 'topBackground');
     this._gUI.add(uiPanel);
 
+    let xPositions = [
+      [uiPanel.width * 0.5],
+      [uiPanel.width * 0.7, uiPanel.width * 0.3],
+      [uiPanel.width * 0.5, uiPanel.width * 0.2, uiPanel.width * 0.8]
+    ];
 
-    this.peter = imageLoader.sprite(uiPanel.width * 0.5, 300, 'peter_normal.png');
+    this.peter = imageLoader.sprite(xPositions[this._recipesInfo.length - 1][0], 300, 'peter_normal.png');
     this._game.add.tween(this.peter).to({
       angle: [-5, 0, 5, 0]
     }, 5000, Phaser.Easing.Linear.None, true, 0, -1, false);
@@ -410,65 +423,73 @@ export default class GameUI {
     this.peter.anchor.setTo(0.5, 1);
     this._gUI.add(this.peter);
 
-    this.stewie = imageLoader.sprite(uiPanel.width * 0.2, 280, 'stewie_normal.png');
-    this.stewie.anchor.setTo(0.5, 1);
-    this._gUI.add(this.stewie);
+    if (this._recipesInfo.length > 1) {
+      this.stewie = imageLoader.sprite(xPositions[this._recipesInfo.length - 1][1], 280, 'stewie_normal.png');
+      this.stewie.anchor.setTo(0.5, 1);
+      this._gUI.add(this.stewie);
 
-    this._game.add.tween(this.stewie).to({
-      angle: [-4, 0, 4, 0]
-    }, 4000, Phaser.Easing.Linear.None, true, 750, -1, false);
+      this._game.add.tween(this.stewie).to({
+        angle: [-4, 0, 4, 0]
+      }, 4000, Phaser.Easing.Linear.None, true, 750, -1, false);
+    }
 
+    if (this._recipesInfo.length > 2) {
+      this.louis = imageLoader.sprite(xPositions[this._recipesInfo.length - 1][2], 300, 'lois_normal.png');
+      this.louis.anchor.setTo(0.5, 1);
+      this._gUI.add(this.louis);
 
-    this.louis = imageLoader.sprite(uiPanel.width * 0.8, 300, 'lois_normal.png');
-    this.louis.anchor.setTo(0.5, 1);
-    this._gUI.add(this.louis);
-
-    this._game.add.tween(this.louis).to({
-      angle: [-3, 0, 3, 0]
-    }, 3500, Phaser.Easing.Linear.None, true, 500, -1, false);
+      this._game.add.tween(this.louis).to({
+        angle: [-3, 0, 3, 0]
+      }, 3500, Phaser.Easing.Linear.None, true, 500, -1, false);
+    }
 
     let counter = imageLoader.sprite(0, uiPanel.height, 'counter.png');
     this._gUI.add(counter);
-    this.stewie.drink = (glass)=> {
-      this.stewie.frameName = 'stewie_drink.png';
-      this.stewie.addChild(glass);
-      this._game.tweens.removeFrom(this.stewie);
-      this._game.add.tween(this.stewie.scale).to({
-        x: [1.1, 1.05, 1.07, 1],
-        y: [1.1, 1.05, 1.07, 1]
-      }, 1200, Phaser.Easing.Linear.None, true, 0, 0, false).onComplete.add(()=> {
-        this._game.add.tween(this.stewie).to({
-          angle: 75,
-          //  y: this.stewie.y+50,
-          alpha: [1, 1, 0],
-        }, 1000, Phaser.Easing.Linear.None, true, 0, 0, false);
-      });
-      glass.angle = 95;
-      glass.scale.set(0.5);
-      glass.y = -70;
-      glass.x = -30;
-    };
 
-    this.louis.drink = (glass)=> {
-      this.louis.frameName = 'lois_drink.png';
-      this.louis.addChild(glass);
+    if (this._recipesInfo.length > 1) {
+      this.stewie.drink = (glass)=> {
+        this.stewie.frameName = 'stewie_drink.png';
+        this.stewie.addChild(glass);
+        this._game.tweens.removeFrom(this.stewie);
+        this._game.add.tween(this.stewie.scale).to({
+          x: [1.1, 1.05, 1.07, 1],
+          y: [1.1, 1.05, 1.07, 1]
+        }, 1200, Phaser.Easing.Linear.None, true, 0, 0, false).onComplete.add(()=> {
+          this._game.add.tween(this.stewie).to({
+            angle: 75,
+            //  y: this.stewie.y+50,
+            alpha: [1, 1, 0],
+          }, 1000, Phaser.Easing.Linear.None, true, 0, 0, false);
+        });
+        glass.angle = 95;
+        glass.scale.set(0.5);
+        glass.y = -70;
+        glass.x = -30;
+      };
+    }
 
-      this._game.tweens.removeFrom(this.louis);
-      this._game.add.tween(this.louis.scale).to({
-        x: [1.1, 1.05, 1.07, 1],
-        y: [1.1, 1.05, 1.07, 1]
-      }, 1200, Phaser.Easing.Linear.None, true, 0, 0, false).onComplete.add(()=> {
-        this._game.add.tween(this.louis).to({
-          angle: 75,
-          //   y: this.stewie.y+50
-          alpha: [1, 1, 0],
-        }, 1000, Phaser.Easing.Linear.None, true, 0, 0, false);
-      });
-      glass.angle = 100;
-      glass.scale.set(0.7);
-      glass.y = -175;
-      glass.x = -40;
-    };
+    if (this._recipesInfo.length > 2) {
+      this.louis.drink = (glass)=> {
+        this.louis.frameName = 'lois_drink.png';
+        this.louis.addChild(glass);
+
+        this._game.tweens.removeFrom(this.louis);
+        this._game.add.tween(this.louis.scale).to({
+          x: [1.1, 1.05, 1.07, 1],
+          y: [1.1, 1.05, 1.07, 1]
+        }, 1200, Phaser.Easing.Linear.None, true, 0, 0, false).onComplete.add(()=> {
+          this._game.add.tween(this.louis).to({
+            angle: 75,
+            //   y: this.stewie.y+50
+            alpha: [1, 1, 0],
+          }, 1000, Phaser.Easing.Linear.None, true, 0, 0, false);
+        });
+        glass.angle = 100;
+        glass.scale.set(0.7);
+        glass.y = -175;
+        glass.x = -40;
+      };
+    }
 
     this.peter.drink = (glass)=> {
       this.peter.frameName = 'peter_drink.png';
@@ -493,13 +514,17 @@ export default class GameUI {
 
 
     const topOffset = 270;
-    const leftOffset = 140;
-    const cellW = 220;
+    const leftOffset = [340, 200, 140][this._recipesInfo.length - 1];
+    const cellW = [220, 300, 220][this._recipesInfo.length - 1];
     const rCountOffsetX = 27;
     const rCountOffsetY = 5;
 
     let colours = ['#107fff', '#34a316', '#9a22d5', '#cd0110', '#ac6800', '#f64c01'];
-    let heroesToDrink = [this.stewie, this.peter, this.louis];
+    let heroesToDrink = [
+      [this.peter],
+      [this.stewie, this.peter],
+      [this.stewie, this.peter, this.louis]
+    ][this._recipesInfo.length - 1];
     for (let i = 0; i < this._recipesInfo.length; i++) {
       let img = imageLoader.sprite(leftOffset + i * cellW, topOffset, `chip_${this._recipesInfo[i].color}_0.png`);
       img.anchor.set(0.5);
@@ -595,8 +620,8 @@ export default class GameUI {
       if (newCount == 0) {
         if (this.recipeItems[i].text.visible !== false) {
           this.recipeItems[i].text.visible = false;
-          this._game.time.events.add(1000, ()=>{
-            this.recipeItems[i].heroes.drink(this.recipeItems[i].img);
+          this._game.time.events.add(1000, ()=> {
+              this.recipeItems[i].heroes.drink(this.recipeItems[i].img);
           });
           this._game.add.tween(this.recipeItems[i].check.scale).to({
             x: [2, 1],
