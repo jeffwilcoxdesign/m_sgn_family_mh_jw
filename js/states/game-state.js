@@ -12,7 +12,7 @@ class GameState extends Phaser.State {
 
     this.params = utils.getAdParameters({
       cta_on_idle_time: {type: 'int', default: 40000},
-      show_tutorial: {type: 'bool', default: false},
+      show_tutorial: {type: 'bool', default: true},
       tutorial_step_1_time: {type: 'int', default: 0},
       tutorial_step_2_time: {type: 'int', default: 50},
       max_moves: {type: 'int', default: 25},
