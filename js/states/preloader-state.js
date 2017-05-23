@@ -7,11 +7,11 @@ Globals.font = 'fresca';
 window.WebFontConfig = {
   active: () => {
     Globals.FONT_IS_LOADED = true;
-  },
+  }/*,
   custom: {
     families: css_fonts,
     urls: ['./css/mraid_wrapper.min.css']
-  }
+  }*/
 };
 
 export default class PreloaderState extends Phaser.State {
