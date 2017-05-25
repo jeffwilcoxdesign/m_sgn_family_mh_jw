@@ -57,7 +57,7 @@ export default class PreloaderState extends Phaser.State {
   }
 
   update() {
-    if (ad_state === 'ready') {
+    if (ad_state === 'ready'  && Globals.FONT_IS_LOADED) {
       ad_state = 'live';
       this.state.start('GameState');
 
