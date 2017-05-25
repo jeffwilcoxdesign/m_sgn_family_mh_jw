@@ -11,6 +11,7 @@ export default class Globals {
 }
 
 // Static constants
+Globals.FONT_IS_LOADED = false;
 Globals.VERBOSE = true; // Must have feature
 Globals.WEB_ROOT = ad_webroot + '/' + ad_name;
 Globals.LAST_INTERACTION_TIME = 0;

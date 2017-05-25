@@ -3,15 +3,11 @@ import LU from 'display/layout-utils';
 
 import {css_fonts} from '../../creative.json';
 
-Globals.font = 'fresca';
 window.WebFontConfig = {
-  active: () => {
+  active ()  {
     Globals.FONT_IS_LOADED = true;
-  }/*,
-  custom: {
-    families: css_fonts,
-    urls: ['./css/mraid_wrapper.min.css']
-  }*/
+  },
+   google: { families: ['Fresca'] }
 };
 
 export default class PreloaderState extends Phaser.State {
