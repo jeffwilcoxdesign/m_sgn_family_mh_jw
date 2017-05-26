@@ -3,17 +3,32 @@ import LU from 'display/layout-utils';
 
 import {css_fonts} from '../../creative.json';
 
-window.WebFontConfig = {
-  fontactive ()  {
-    console.log("LOADEd")
-      Globals.FONT_IS_LOADED = true;
-  },
-  google: { families: ['Fresca'] }
-}
+/*var wfconfig = {
 
-window.onload = ()=>{
-    Globals.loaded = true;
-}
+    active: function() {
+      setTimeout( ()=>{
+          Globals.FONT_IS_LOADED=true
+      },1000)
+
+    },
+
+    google: {
+        families: ['Fresca']
+    }
+
+};
+
+WebFont.load(wfconfig);*/
+
+
+var FontFaceObserver = require('fontfaceobserver');
+var font = new FontFaceObserver('Fresca',{ });
+
+font.load().then(function (font) {
+      console.log(font)
+      setTimeout(()=>{  Globals.FONT_IS_LOADED=true},1)
+
+});
 export default class PreloaderState extends Phaser.State {
   init() {
     this.stage.backgroundColor = "#010101";
@@ -50,6 +65,12 @@ export default class PreloaderState extends Phaser.State {
   }
 
   create() {
+    WebFont.load({
+        google: {
+            // Put your fonts to load here.
+            families: ['Fresca']
+        }
+    });
     wrapper_preload_complete();
   }
 
@@ -58,8 +79,9 @@ export default class PreloaderState extends Phaser.State {
   }
 
   update() {
-    if (ad_state === 'ready'  && Globals.FONT_IS_LOADED && Globals.loaded) {
-      ad_state = 'live';
+
+    if (ad_state === 'ready'  && Globals.FONT_IS_LOADED ) {
+      ad_state ='live'
       this.state.start('GameState');
     }
   }

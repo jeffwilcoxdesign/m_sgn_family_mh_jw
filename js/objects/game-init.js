@@ -210,6 +210,7 @@ export default class GameInit {
     this._gameView.fitUIView();
     this._gameView._uiView.updateScore(this._e.currentScore);
     this._gameView._uiView.updateMoves(this._e.currentMoves);
+
   }
 
   initInputEvents(gameView) {
@@ -233,11 +234,13 @@ export default class GameInit {
   update() {
     let dt = this._game.time.elapsed * 0.001;
     this._e.update(dt);
+    this._gameView._uiView.updateRecipes();
     if (new Date().getTime() > this._ctaTimer + this._startSettings.ctaIdleTime && !this._e.mActionsPause) {
       this._gameView._tutorialView.removeAll();
       this._e.pauseAllActions();
       this._e.removeAllActions();
       this._e.level.cbShowCTA();
+
     }
   }
 }

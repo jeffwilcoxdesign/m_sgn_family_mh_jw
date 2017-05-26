@@ -35,7 +35,7 @@ export default class GameUI {
     };
 
     this.movesCountTextStyle = {
-      font: "70px fresca",
+      font: "70px Fresca",
       fill: '#000000',
       boundsAlignH: "center",
       boundsAlignV: "middle",
@@ -389,7 +389,7 @@ export default class GameUI {
 
     m.setTextBounds(0, 0, 125, 30);
     this.movesText = this._game.add.text(-5, 17, '25', this.movesCountTextStyle);
-    this.movesText.addFontWeight('bold', 0);
+  //  this.movesText.addFontWeight('bold', 0);
 
 
     let grd1 = this.movesText.context.createLinearGradient(0, 0, 0, this.movesText.canvas.height);
