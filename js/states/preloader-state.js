@@ -4,12 +4,16 @@ import LU from 'display/layout-utils';
 import {css_fonts} from '../../creative.json';
 
 window.WebFontConfig = {
-  active ()  {
+  fontactive ()  {
+    console.log("LOADEd")
       Globals.FONT_IS_LOADED = true;
   },
-   google: { families: ['Fresca'] }
-};
+  google: { families: ['Fresca'] }
+}
 
+window.onload = ()=>{
+    Globals.loaded = true;
+}
 export default class PreloaderState extends Phaser.State {
   init() {
     this.stage.backgroundColor = "#010101";
@@ -42,7 +46,7 @@ export default class PreloaderState extends Phaser.State {
 
     // Preload an random background
     imageLoader.loadAtlas('assets', Globals.WEB_ROOT + '/texture_sheets/assets.png');
-      this.game.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
+    this.game.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
   }
 
   create() {
@@ -54,10 +58,9 @@ export default class PreloaderState extends Phaser.State {
   }
 
   update() {
-    if (ad_state === 'ready'  && Globals.FONT_IS_LOADED) {
+    if (ad_state === 'ready'  && Globals.FONT_IS_LOADED && Globals.loaded) {
       ad_state = 'live';
       this.state.start('GameState');
-
     }
   }
 }

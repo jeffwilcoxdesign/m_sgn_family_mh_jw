@@ -5,6 +5,7 @@ import GameInit from 'objects/game-init';
 
 class GameState extends Phaser.State {
   create() {
+    console.log("feaf")
     // LU.RENDER_RESOLUTION = 1 / LU.getDevicePixelRatio();
     LU.refreshViewDimmensions();
     this.game.time.desiredFps = 60;

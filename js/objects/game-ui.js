@@ -19,7 +19,7 @@ export default class GameUI {
 
 
     this.recipesTextStyle = {
-      font: "30px fresca",
+      font: "30px Fresca",
       fill: '#000000',
       boundsAlignH: "center",
       boundsAlignV: "middle",
@@ -27,7 +27,7 @@ export default class GameUI {
     };
 
     this.movesTextStyle = {
-      font: "30px fresca",
+      font: "30px Fresca",
       fill: '#ffffff',
       boundsAlignH: "center",
       boundsAlignV: "middle",
@@ -211,7 +211,7 @@ export default class GameUI {
       check.anchor.set(0.5);
       check.scale.set(0);
       this._gUI.add(check);
-
+      console.log("addted text")
       let count = this._game.add.text(0, 2, this._recipesInfo[i].count, this.recipesTextStyle);
       count.fill = colours[this._recipesInfo[i].color];
       count.anchor.setTo(0.5, 0.5);
@@ -543,7 +543,7 @@ export default class GameUI {
       check.anchor.set(0.5);
       check.scale.set(0);
       this._gUI.add(check);
-
+        console.log("addted text",this._recipesInfo[i].count)
       let count = this._game.add.text(0, 2, this._recipesInfo[i].count, this.recipesTextStyle);
       count.fill = colours[this._recipesInfo[i].color];
       count.anchor.setTo(0.5, 0.5);
