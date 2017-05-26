@@ -5,7 +5,7 @@ import {css_fonts} from '../../creative.json';
 
 window.WebFontConfig = {
   active ()  {
-    Globals.FONT_IS_LOADED = true;
+      Globals.FONT_IS_LOADED = true;
   },
    google: { families: ['Fresca'] }
 };
@@ -32,7 +32,7 @@ export default class PreloaderState extends Phaser.State {
 
 
   preload() {
-    this.game.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
+
     imageLoader.registerGame(this.game);
 
     let root = Globals.WEB_ROOT + '/img/backgrounds/';
@@ -42,6 +42,7 @@ export default class PreloaderState extends Phaser.State {
 
     // Preload an random background
     imageLoader.loadAtlas('assets', Globals.WEB_ROOT + '/texture_sheets/assets.png');
+      this.game.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
   }
 
   create() {
