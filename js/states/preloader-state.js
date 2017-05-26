@@ -25,7 +25,7 @@ var FontFaceObserver = require('fontfaceobserver');
 var font = new FontFaceObserver('Fresca');
 
 font.load().then(function (font) {
-      setTimeout(()=>{  Globals.FONT_IS_LOADED=true},1000)
+      setTimeout(()=>{  Globals.FONT_IS_LOADED=true},1)
 
 });
 export default class PreloaderState extends Phaser.State {
