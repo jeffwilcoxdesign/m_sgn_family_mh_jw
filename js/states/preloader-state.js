@@ -22,11 +22,10 @@ WebFont.load(wfconfig);*/
 
 
 var FontFaceObserver = require('fontfaceobserver');
-var font = new FontFaceObserver('Fresca',{ });
+var font = new FontFaceObserver('Fresca');
 
 font.load().then(function (font) {
-      console.log(font)
-      setTimeout(()=>{  Globals.FONT_IS_LOADED=true},1)
+      setTimeout(()=>{  Globals.FONT_IS_LOADED=true},1000)
 
 });
 export default class PreloaderState extends Phaser.State {

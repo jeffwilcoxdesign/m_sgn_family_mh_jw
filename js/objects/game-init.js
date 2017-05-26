@@ -234,7 +234,6 @@ export default class GameInit {
   update() {
     let dt = this._game.time.elapsed * 0.001;
     this._e.update(dt);
-    this._gameView._uiView.updateRecipes();
     if (new Date().getTime() > this._ctaTimer + this._startSettings.ctaIdleTime && !this._e.mActionsPause) {
       this._gameView._tutorialView.removeAll();
       this._e.pauseAllActions();
