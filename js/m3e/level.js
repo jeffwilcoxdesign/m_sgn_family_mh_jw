@@ -276,7 +276,7 @@ class RecipeGameType extends GameType {
       p = p[2].split('-');
       //console.log(p, type)
 
-      if (this._maxRecipeItems < maxColors) {
+      if (this._maxRecipeItems <= maxColors) {
         this._itemSettings.push({min: parseInt(p[0]), max: parseInt(p[1]), type: type, color:color});
         this._maxRecipeItems++;
       }
@@ -293,7 +293,7 @@ class RecipeGameType extends GameType {
         count: Utils.random(this._itemSettings[this._maxRecipeItems].min, this._itemSettings[this._maxRecipeItems].max)
       });
     }
-    this.mRecipe = Utils.shuffleArray(this.mRecipe);
+  //  this.mRecipe = Utils.shuffleArray(this.mRecipe);
   }
 
   get recipesInfo() {

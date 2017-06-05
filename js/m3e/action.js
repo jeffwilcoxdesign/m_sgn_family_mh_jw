@@ -102,6 +102,7 @@ class BootAction extends Action {
           newSlot.view = this.m3e.level.cbGetSlotView(newSlot);
           // let newChipColor = slotMaskType === 0 ? Utils.random(0, this.m3e.level.mGameSettings.maxColors) : slotMaskType;
           let newChipColor = this.getBoardParameter('c', slotData);
+          if(newChipColor.exist && newChipColor.result> this.m3e.level.mGameSettings.maxColors) newChipColor.exist = false;
           newChipColor = newChipColor.exist ? newChipColor.result : Utils.random(0, this.m3e.level.mGameSettings.maxColors);
 
           newChip = new Chips.RegularChip();

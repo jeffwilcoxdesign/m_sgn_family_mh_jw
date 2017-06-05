@@ -7,13 +7,9 @@ Dynamic ad params
 * show_tutorial
 * tutorial_step_1_time
 * tutorial_step_2_time
-* max_moves
-* max_colors
 * max_score
 * input_type
 * game_type_pattern
-* total_recipe
-* max_goal
 * score_add_by_chip
 * highligh_helper_time
 * use_emitters
@@ -26,3 +22,7 @@ Dynamic ad params
 * use_effects
 * use_small_field
 * replays_number
+* moves
+* colors
+* characters
+* toCollect

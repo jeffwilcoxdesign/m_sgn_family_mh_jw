@@ -5,7 +5,6 @@ import GameInit from 'objects/game-init';
 
 class GameState extends Phaser.State {
   create() {
-    console.log("feaf")
     // LU.RENDER_RESOLUTION = 1 / LU.getDevicePixelRatio();
     LU.refreshViewDimmensions();
     this.game.time.desiredFps = 60;
@@ -16,16 +15,15 @@ class GameState extends Phaser.State {
       show_tutorial: {type: 'bool', default: true},
       tutorial_step_1_time: {type: 'int', default: 0},
       tutorial_step_2_time: {type: 'int', default: 50},
-      max_moves: {type: 'int', default: 25},
-      max_colors: {type: 'int', default: 5},
       max_score: {type: 'int', default: 0},
       input_type: {type: 'string', default: 'swipe'}, // can be 'tap' or 'swipe'
       game_type_pattern: {type: 'string', default: 'recipe'}, // game type ,if recipe (6 - type, 0-color,1-1 min and max value for random)
-      total_recipe: {type: 'int', default: 3},
-      max_goal: {type: 'int', default: 20},
-
       score_add_by_chip: {type: 'int', default: 10},
       highligh_helper_time: {type: 'int', default: 5},
+      moves: {type: 'int', default: 10},
+      colors: {type: 'int', default: 3},
+      characters: {type: 'int', default: 3},
+      toCollect: {type: 'int', default: 10},
       // performance /view settings
       performance_mode_auto: {type: 'bool', default: false}, // automatically set for using minimal effects in canvas mode and max in WebGL
       use_emitters: {type: 'bool', default: true},
@@ -61,25 +59,25 @@ class GameState extends Phaser.State {
 
   getGameTypepattern() {
     let pattern = '';
-    let colorsArray = ['4', '1', '0']; // hack only for current creative
-    this.params.total_recipe = this.params.max_goal < this.params.total_recipe ? this.params.max_goal : this.params.total_recipe;
-    this.params.total_recipe = Math.max(1, Math.min(3, this.params.total_recipe));
-    this.params.max_goal = Math.max(1, this.params.max_goal);
+    let colorsArray = ['0', '1', '2']; // hack only for current creative
+    this.params.characters = this.params.toCollect < this.params.characters ? this.params.toCollect : this.params.characters;
+    this.params.characters = Math.max(1, Math.min(3, this.params.characters));
+    this.params.toCollect = Math.max(1, this.params.toCollect);
     pattern += this.params.game_type_pattern;
     if (pattern == 'recipe') {
       let totalCount = 0;
-      for (let i = 0; i < this.params.total_recipe; i++) {
+      for (let i = 0; i < this.params.characters; i++) {
         pattern += ',';
 
         let count = 0;
-        if (i < this.params.total_recipe - 1) {
-          count = Math.round(this.params.max_goal / this.params.total_recipe);
+        if (i < this.params.characters - 1) {
+          count = Math.round(this.params.toCollect / this.params.characters);
           totalCount += count;
         }
         else {
-          count = this.params.max_goal - totalCount
+          count = this.params.toCollect - totalCount;
         }
-        pattern += `0|${colorsArray[i]}|${count}-${count}`
+        pattern += `0|${colorsArray[i]}|${count}-${count}`;
       }
 
     }
@@ -88,14 +86,15 @@ class GameState extends Phaser.State {
   }
 
   initStartSettings() {
+    this.params.colors = Math.max(2,this.params.colors);
     let settings = {
       ctaIdleTime: this.params.cta_on_idle_time,
       showTutorial: this.params.show_tutorial,
       tutorialStep1Time: this.params.tutorial_step_1_time,
       tutorialStep2Time: this.params.tutorial_step_2_time,
-      maxMoves: this.params.max_moves,
+      maxMoves: this.params.moves,
       maxScore: this.params.max_score,
-      maxColors: this.params.max_colors,
+      maxColors: this.params.colors,
       gameType: this.getGameTypepattern(),
       scoreAddByChip: this.params.score_add_by_chip,
       highlighHelperTime: this.params.highligh_helper_time,
