@@ -33,6 +33,8 @@ class GameState extends Phaser.State {
       replays_number: {type: 'int', default: 1},
     });
 
+    this.params.colors--;
+
     if (Globals.REPLAYS_NUMBER == null)
       Globals.REPLAYS_NUMBER = this.params.replays_number;
 
