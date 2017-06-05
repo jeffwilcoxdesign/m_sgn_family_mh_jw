@@ -88,7 +88,7 @@ class GameState extends Phaser.State {
   }
 
   initStartSettings() {
-    this.params.colors = Math.max(2,this.params.colors);
+    this.params.colors = Math.min(Math.max(2,this.params.colors), 5);
     let settings = {
       ctaIdleTime: this.params.cta_on_idle_time,
       showTutorial: this.params.show_tutorial,
