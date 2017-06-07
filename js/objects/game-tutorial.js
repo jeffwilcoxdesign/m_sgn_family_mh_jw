@@ -74,9 +74,9 @@ export default class GameTutorial {
       let dy = gSlots.y - LU.TOP_OFFSET;
       let sc = gSlots.scale.x;
 
-      for (let slotView of slotViews) {
-        let x = (slotView.x - this._viewSettings.slot.width * 0.5) * sc + dx;
-        let y = (slotView.y - this._viewSettings.slot.height * 0.5) * sc + dy;
+      for (let slotView in slotViews) {
+        let x = (slotViews[slotView].x - this._viewSettings.slot.width * 0.5) * sc + dx;
+        let y = (slotViews[slotView].y - this._viewSettings.slot.height * 0.5) * sc + dy;
 
         for (let i = 0; i < this._viewSettings.slot.width * sc; i++) {
           for (let j = 0; j < this._viewSettings.slot.height * sc; j++) {
@@ -339,11 +339,11 @@ export default class GameTutorial {
 
     if (!skipSpritesCheck && (!this._maskSprite || !this._arrow)) return;
 
-    for (let t of this._cachedTweens) {
-      t.stop();
-      t.target.x = t.timeline[0].vStartCache.x;
-      t.target.y = t.timeline[0].vStartCache.y;
-      this._game.tweens.remove(t);
+    for (let t in this._cachedTweens) {
+      this._cachedTweens[t].stop();
+      this._cachedTweens[t].target.x = this._cachedTweens[t].timeline[0].vStartCache.x;
+      this._cachedTweens[t].target.y = this._cachedTweens[t].timeline[0].vStartCache.y;
+      this._game.tweens.remove(this._cachedTweens[t]);
     }
 
     if (force) {

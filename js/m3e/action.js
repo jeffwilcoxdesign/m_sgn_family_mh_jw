@@ -140,9 +140,9 @@ class BootAction extends Action {
   }
 
   getBoardParameter(targetParam, data) {
-    for (let str of data) {
-      if (str.indexOf(targetParam) == 0) {
-        let result = str.split('=');
+    for (let str in data) {
+      if (data[str].indexOf(targetParam) == 0) {
+        let result = data[str].split('=');
         if (result.length > 1) {
           return {exist: true, result: parseInt(result[1])};
         }
@@ -408,8 +408,8 @@ class UserAction extends Action {
     this._swapBack = false;
     this.m3e.level.checkEndGame();
     this.possibleMoves = this.m3e.defaultMatcher.getPossibleMoves();
-    for (let r of this.possibleMoves) {
-      if (r.refreshedColors) {
+    for (let r in this.possibleMoves) {
+      if (this.possibleMoves[r].refreshedColors) {
         this.nextActionName = 'removeChips';
         this.mPendingExit = true;
         return;
@@ -453,9 +453,9 @@ class UserAction extends Action {
     this.m3e.setAllChipsMatchPending(false);
     let firstChipMatchedGroup = this.m3e.matchSlot(this._firstSlot.mI, this._firstSlot.mJ);
     if (firstChipMatchedGroup.exist) {
-      for (let item of firstChipMatchedGroup.result) {
-        if (item.slot !== null)
-          item.slot.pendingDestroy(item);
+      for (let item in firstChipMatchedGroup.result) {
+        if (firstChipMatchedGroup.result[item].slot !== null)
+          firstChipMatchedGroup.result[item].slot.pendingDestroy(firstChipMatchedGroup.result[item]);
       }
       this.m3e.decreaseMoves();
       return true;
@@ -497,16 +497,16 @@ class UserAction extends Action {
       }
       let firstChipMatchedGroup = this.m3e.matchSlot(this._firstSlot.mI, this._firstSlot.mJ);
       if (firstChipMatchedGroup.exist) {
-        for (let item of firstChipMatchedGroup.result) {
-          if (item.slot !== null)
-            item.slot.pendingDestroy(item);
+        for (let item in firstChipMatchedGroup.result) {
+          if (firstChipMatchedGroup.result[item].slot !== null)
+            firstChipMatchedGroup.result[item].slot.pendingDestroy(firstChipMatchedGroup.result[item]);
         }
       }
       let secondChipMatchedGroup = this.m3e.matchSlot(this._secondSlot.mI, this._secondSlot.mJ);
       if (secondChipMatchedGroup.exist) {
-        for (let item of secondChipMatchedGroup.result) {
-          if (item.slot !== null)
-            item.slot.pendingDestroy(item);
+        for (let item in secondChipMatchedGroup.result) {
+          if (secondChipMatchedGroup.result[item].slot !== null)
+            secondChipMatchedGroup.result[item].slot.pendingDestroy(secondChipMatchedGroup.result[item]);
         }
       }
       if (!firstChipMatchedGroup.exist && !secondChipMatchedGroup.exist) {

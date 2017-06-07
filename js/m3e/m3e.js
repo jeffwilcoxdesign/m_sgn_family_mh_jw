@@ -128,12 +128,12 @@ export default class M3E {
    * Remove all actions
    */
   removeAllActions() {
-    for (let a of this.mActionQueue) {
-      a.mPendingExit = true;
+    for (let a in this.mActionQueue) {
+      this.mActionQueue[a].mPendingExit = true;
     }
 
-    for (let a of this.mAsyncActionsQueue) {
-      a.mPendingExit = true;
+    for (let a in this.mAsyncActionsQueue) {
+      this.mAsyncActionsQueue[a].mPendingExit = true;
     }
   }
 
@@ -365,9 +365,9 @@ export default class M3E {
    */
   decreaseRecipe(chip) {
     let count = 0;
-    for (let r of this.level.gameType.recipesInfo) {
-      if (chip.color == r.color && chip.type == r.type && r.count > 0) {
-        r.count--;
+    for (let r in this.level.gameType.recipesInfo) {
+      if (chip.color == this.level.gameType.recipesInfo[r].color && chip.type == this.level.gameType.recipesInfo[r].type && this.level.gameType.recipesInfo[r].count > 0) {
+        this.level.gameType.recipesInfo[r].count--;
         this.level.cbUpdateRecipesUI();
         return count;
       }
@@ -750,8 +750,8 @@ class M3Matcher {
       }
       result = this.comparePatterns(this.createMatchPattern(allSlots), slot);
       if (result.exist) {
-        for (let r of result.items) {
-          r.slot.isMatched = true;
+        for (let r in result.items) {
+          result.items[r].slot.isMatched = true;
         }
       }
     }
@@ -896,9 +896,9 @@ class M3Matcher {
         let matchGroups = this.matchSlot(c, r);
         if (matchGroups.exist) {
           findGroups = true;
-          for (let item of matchGroups.result) {
-            if (item.slot !== null) {
-              item.slot.pendingDestroy(item);
+          for (let item in matchGroups.result) {
+            if (matchGroups.result[item].slot !== null) {
+              matchGroups.result[item].slot.pendingDestroy(matchGroups.result[item]);
             }
           }
         }
@@ -972,39 +972,39 @@ class M3Matcher {
       slot.mPendingDestroy = false;
     }
     else {
-      for (let c of chipsForRemove) {
-        if (c.slot.currentChip != 'no_chip') {
-          if (c.slot.currentChip.type != 0 && !this._m3e.slotsEqual(c.slot, slot) &&
-              (slotsToRemove.find((x)=>(this._m3e.slotsEqual(c.slot, x))) == undefined) && !c.slot.mThrowSpecialDestroy) {
+      for (let c in chipsForRemove) {
+        if (chipsForRemove[c].slot.currentChip != 'no_chip') {
+          if (chipsForRemove[c].slot.currentChip.type != 0 && !this._m3e.slotsEqual(chipsForRemove[c].slot, slot) &&
+              (slotsToRemove.find((x)=>(this._m3e.slotsEqual(chipsForRemove[c].slot, x))) == undefined) && !chipsForRemove[c].slot.mThrowSpecialDestroy) {
             // c.slot.currentChip.mIgnoreDestroyEffect = true;
             // slot.currentChip.mIgnoreDestroyEffect = false;
-            this.removeSpecialChips(c.slot.currentChip.type, c.slot, slotsToRemove);
+            this.removeSpecialChips(chipsForRemove[c].slot.currentChip.type, chipsForRemove[c].slot, slotsToRemove);
           }
           else {
-            slotsToRemove.push({mI: c.slot.mI, mJ: c.slot.mJ});
+            slotsToRemove.push({mI: chipsForRemove[c].slot.mI, mJ: chipsForRemove[c].slot.mJ});
             // if(c.slot.currentChip.type != 0)
             //   c.slot.currentChip.mIgnoreDestroyEffect = false;
             //slot.currentChip.mIgnoreDestroyEffect = false;
 
-            c.slot.mThrowSpecialDestroy = false;
-            c.slot.mSimpleDestroy = true;
+            chipsForRemove[c].slot.mThrowSpecialDestroy = false;
+            chipsForRemove[c].slot.mSimpleDestroy = true;
             if (this._m3e.level.gameType.mType === 'recipe') {
-              let recipeResult = this._m3e.decreaseRecipe(c.slot.currentChip);
+              let recipeResult = this._m3e.decreaseRecipe(chipsForRemove[c].slot.currentChip);
               if (recipeResult !== false) {
-                c.slot.destroyChipEffect(recipeResult, counter);
+                chipsForRemove[c].slot.destroyChipEffect(recipeResult, counter);
                 counter++;
               }
               else {
-                c.slot.destroyChipEffect();
+                chipsForRemove[c].slot.destroyChipEffect();
               }
             }
             else
-              c.slot.destroyChipEffect();
+              chipsForRemove[c].slot.destroyChipEffect();
 
 
-            c.slot.mPendingDestroy = true;
-            c.slot.currentChip.mStartDestroy = true;
-            c.slot.pendingMatch = true;
+            chipsForRemove[c].slot.mPendingDestroy = true;
+            chipsForRemove[c].slot.currentChip.mStartDestroy = true;
+            chipsForRemove[c].slot.pendingMatch = true;
           }
         }
       }
@@ -1166,8 +1166,8 @@ class TAPM3Matcher {
       }
       result = this.comparePatterns(this.createMatchPattern(allSlots), slot);
       if (result.exist) {
-        for (let r of result.items) {
-          r.slot.isMatched = true;
+        for (let r in result.items) {
+          result.items[r].slot.isMatched = true;
         }
       }
     }
@@ -1380,39 +1380,39 @@ class TAPM3Matcher {
       slot.mPendingDestroy = false;
     }
     else {
-      for (let c of chipsForRemove) {
-        if (c.slot.currentChip != 'no_chip') {
-          if (c.slot.currentChip.type != 0 && !this._m3e.slotsEqual(c.slot, slot) &&
-              (slotsToRemove.find((x)=>(this._m3e.slotsEqual(c.slot, x))) == undefined) && !c.slot.mThrowSpecialDestroy) {
+      for (let c in chipsForRemove) {
+        if (chipsForRemove[c].slot.currentChip != 'no_chip') {
+          if (chipsForRemove[c].slot.currentChip.type != 0 && !this._m3e.slotsEqual(chipsForRemove[c].slot, slot) &&
+              (slotsToRemove.find((x)=>(this._m3e.slotsEqual(chipsForRemove[c].slot, x))) == undefined) && !chipsForRemove[c].slot.mThrowSpecialDestroy) {
             // c.slot.currentChip.mIgnoreDestroyEffect = true;
             // slot.currentChip.mIgnoreDestroyEffect = false;
-            this.removeSpecialChips(c.slot.currentChip.type, c.slot, slotsToRemove);
+            this.removeSpecialChips(chipsForRemove[c].slot.currentChip.type, chipsForRemove[c].slot, slotsToRemove);
           }
           else {
-            slotsToRemove.push({mI: c.slot.mI, mJ: c.slot.mJ});
+            slotsToRemove.push({mI: chipsForRemove[c].slot.mI, mJ: chipsForRemove[c].slot.mJ});
             // if(c.slot.currentChip.type != 0)
             //   c.slot.currentChip.mIgnoreDestroyEffect = false;
             //slot.currentChip.mIgnoreDestroyEffect = false;
 
-            c.slot.mThrowSpecialDestroy = false;
-            c.slot.mSimpleDestroy = true;
+            chipsForRemove[c].slot.mThrowSpecialDestroy = false;
+            chipsForRemove[c].slot.mSimpleDestroy = true;
             if (this._m3e.level.gameType.mType === 'recipe') {
-              let recipeResult = this._m3e.decreaseRecipe(c.slot.currentChip);
+              let recipeResult = this._m3e.decreaseRecipe(chipsForRemove[c].slot.currentChip);
               if (recipeResult !== false) {
-                c.slot.destroyChipEffect(recipeResult, counter);
+                chipsForRemove[c].slot.destroyChipEffect(recipeResult, counter);
                 counter++;
               }
               else {
-                c.slot.destroyChipEffect();
+                chipsForRemove[c].slot.destroyChipEffect();
               }
             }
             else
-              c.slot.destroyChipEffect();
+              chipsForRemove[c].slot.destroyChipEffect();
 
 
-            c.slot.mPendingDestroy = true;
-            c.slot.currentChip.mStartDestroy = true;
-            c.slot.pendingMatch = true;
+            chipsForRemove[c].slot.mPendingDestroy = true;
+            chipsForRemove[c].slot.currentChip.mStartDestroy = true;
+            chipsForRemove[c].slot.pendingMatch = true;
           }
         }
       }

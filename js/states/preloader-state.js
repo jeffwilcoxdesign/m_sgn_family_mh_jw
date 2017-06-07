@@ -21,13 +21,27 @@ import {css_fonts} from '../../creative.json';
 WebFont.load(wfconfig);*/
 
 
-var FontFaceObserver = require('fontfaceobserver');
-var font = new FontFaceObserver('Fresca');
+/// FontFaceObserver uses Promise method which breaks this creative on Android 4.4 
+function isAndroid() {
+ if ( navigator.userAgent.match(/Android/i)) {
+    Globals.FONT_IS_LOADED = true;
+    return true;
+  }
+ else {
+    return false;
+  }
+}
 
-font.load().then(function (font) {
-      setTimeout(()=>{  Globals.FONT_IS_LOADED=true},1)
+if (!isAndroid()) {
+  var FontFaceObserver = require('fontfaceobserver');
+  var font = new FontFaceObserver('Fresca');
 
-});
+  font.load().then(function (font) {
+        setTimeout(()=>{  Globals.FONT_IS_LOADED=true},1)
+
+  });
+}
+
 export default class PreloaderState extends Phaser.State {
   init() {
     this.stage.backgroundColor = "#010101";
@@ -79,7 +93,7 @@ export default class PreloaderState extends Phaser.State {
 
   update() {
 
-    if (ad_state === 'ready'  && Globals.FONT_IS_LOADED ) {
+    if (ad_state === 'ready' && Globals.FONT_IS_LOADED) {
       ad_state ='live'
       this.state.start('GameState');
     }

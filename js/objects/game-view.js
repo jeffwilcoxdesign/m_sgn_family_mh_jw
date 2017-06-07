@@ -66,9 +66,10 @@ export default class GameView {
 
 
   createGroups(...Args) {
-    for (let arg of Args) {
-      this['g' + arg] = this._game.add.group();
-      this._view.add(this['g' + arg]);
+
+    for (let i in Args) {
+      this['g' + Args[i]] = this._game.add.group();
+      this._view.add(this['g' + Args[i]]);
     }
   }
 
@@ -166,10 +167,11 @@ export default class GameView {
       let findSlots = obj[moveNumber].result;
       slots.push({slot: obj[moveNumber].slot1});
       //slots.push({slot: obj[moveNumber].slot2})
-
-      for (let s of findSlots) {
-        if (!(s.slot.mI == obj[moveNumber].slot2.mI && s.slot.mJ == obj[moveNumber].slot2.mJ))
-          slots.push(s);
+      
+      for (let s in findSlots) {
+        if (!(findSlots[s].slot.mI == obj[moveNumber].slot2.mI && findSlots[s].slot.mJ == obj[moveNumber].slot2.mJ))
+          slots.push(findSlots[s]);
+          console.log(findSlots[s])
       }
 
     }
@@ -181,8 +183,8 @@ export default class GameView {
 
     let effectEvent = this._game.time.events.add(0, () => {
 
-      for (let s of slots) {
-        let slotView = s.slot.currentChip.view;
+      for (let s in slots) {
+        let slotView = slots[s].slot.currentChip.view;
         let twn1 = this._game.add.tween(slotView).to({
           angle: [-15, 0, 15, 0, -15, 0, 15, 0]
         }, 1500, Phaser.Easing.Sinusoidal.InOut, true, 1, 0, false);
@@ -204,24 +206,24 @@ export default class GameView {
       this.helperEventMain.pendingDelete = true;
 
     if (this.helperEvent.length !== 0) {
-      for (let e of this.helperEvent) {
-        e.pendingDelete = true;
+      for (let e in this.helperEvent) {
+        this.helperEvent[e].pendingDelete = true;
       }
     }
 
     this._game.time.events.clearPendingEvents();
 
     if (this.hehlperTwn1.length !== 0) {
-      for (let t of this.hehlperTwn1) {
-        t.target.alpha = 1;
-        this._game.tweens.remove(t);
+      for (let t in this.hehlperTwn1) {
+        this.hehlperTwn1[t].target.alpha = 1;
+        this._game.tweens.remove(this.hehlperTwn1[t]);
       }
     }
 
     if (this.hehlperTwn2.length !== 0) {
-      for (let t of this.hehlperTwn2) {
-        t.target.alpha = 1;
-        this._game.tweens.remove(t);
+      for (let t in this.hehlperTwn2) {
+        this.hehlperTwn2[t].target.alpha = 1;
+        this._game.tweens.remove(this.hehlperTwn2[t]);
       }
     }
   }
@@ -360,9 +362,9 @@ class Effects {
     let startX = slot.currentChip.view.x;
     let startY = slot.currentChip.view.y;
 
-    for (let s of removedSlots) {
-      let x = s.slot.currentChip.view.x;
-      let y = s.slot.currentChip.view.y;
+    for (let s in removedSlots) {
+      let x = removedSlots[s].slot.currentChip.view.x;
+      let y = removedSlots[s].slot.currentChip.view.y;
 
       let width = Phaser.Math.distance(x, y, startX, startY);
 
@@ -861,18 +863,18 @@ class ChipView extends Phaser.Group {
 
   maximize() {
 
-    for (let twn of this.tweenEvents) {
-      this._game.tweens.remove(twn);
+    for (let twn in this.tweenEvents) {
+      this._game.tweens.remove(this.tweenEvents[twn]);
 
     }
 
-    for (let te of this.timeEvents) {
-      this._game.time.events.remove(te);
+    for (let te in this.timeEvents) {
+      this._game.time.events.remove(this.timeEvents[te]);
     }
 
     let sprites = [this.effect1, this.effect2, this,];
-    for (let s of sprites) {
-      this._game.add.tween(s.scale).to({
+    for (let s in sprites) {
+      this._game.add.tween(sprites[s].scale).to({
         x: 3,
         y: 3
       }, 1000, Phaser.Easing.Sinusoidal.InOut, true, 1, 0, false);
@@ -880,7 +882,7 @@ class ChipView extends Phaser.Group {
         x: this.x * 0.5 + this.width * 0.5,
         y: this.x * 0.5 + this.height * 0.5
       }, 1000, Phaser.Easing.Sinusoidal.InOut, true, 1, 0, false);
-      this._effectsGroup.bringToTop(s);
+      this._effectsGroup.bringToTop(sprites[s].scale);
     }
   }
 

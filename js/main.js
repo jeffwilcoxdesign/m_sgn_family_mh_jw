@@ -1,3 +1,5 @@
+require('es5-shim');
+require('es6-shim');
 import LU from 'display/layout-utils';
 import PreloaderState from './states/preloader-state';
 import GameState from './states/game-state';

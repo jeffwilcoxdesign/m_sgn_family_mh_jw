@@ -54,9 +54,9 @@ export default class GameUI {
   }
 
   redrawAllTextData() {
-    for (let item of this._gUI.children) {
-      if (item.text != null) {
-        item.addFontStyle('normal');
+    for (let item in this._gUI.children) {
+      if (this._gUI.children[item].text != null) {
+        this._gUI.children[item].addFontStyle('normal');
       }
     }
     if (++this.textRedrawTimes < 3)
@@ -107,7 +107,7 @@ export default class GameUI {
     }
 
 
-    if (this._recipesInfo.length > 3) {
+    if (this._recipesInfo.length >= 3) {
       this.louis = imageLoader.sprite(this.uiPanel.width * 0.8, 300, 'lois_normal.png');
       this.louis.anchor.setTo(0.5, 1);
       this._gUI.add(this.louis);

@@ -87,8 +87,8 @@ class TutorialAction extends Action {
     let targetSprite1 = this.findMove.slot1.currentChip.view;
     let targetSprite2 = this.findMove.slot2.currentChip.view;
     let slotViews = [this.findMove.slot1.currentChip.view, this.findMove.slot2.currentChip.view];
-    for (let result of this.findMove.result) {
-      slotViews.push(result.slot.currentChip.view);
+    for (let result in this.findMove.result) {
+      slotViews.push(this.findMove.result[result].slot.currentChip.view);
     }
 
     this._tutorialView.highlightField(slotViews);
@@ -141,9 +141,9 @@ class TutorialAction extends Action {
     this.m3e.setAllChipsMatchPending(false);
     let firstChipMatchedGroup = this.m3e.matchSlot(this._firstSlot.mI, this._firstSlot.mJ);
     if (firstChipMatchedGroup.exist) {
-      for (let item of firstChipMatchedGroup.result) {
-        if (item.slot !== null)
-          item.slot.pendingDestroy(item);
+      for (let item in firstChipMatchedGroup.result) {
+        if (firstChipMatchedGroup.result[item].slot !== null)
+          firstChipMatchedGroup.result[item].slot.pendingDestroy(firstChipMatchedGroup.result[item]);
       }
       this.m3e.decreaseMoves();
       return true;
@@ -174,17 +174,17 @@ class TutorialAction extends Action {
     else {
       let firstChipMatchedGroup = this.m3e.matchSlot(this._firstSlot.mI, this._firstSlot.mJ);
       if (firstChipMatchedGroup.exist) {
-        for (let item of firstChipMatchedGroup.result) {
-          if (item.slot !== null)
-            item.slot.pendingDestroy(item);
+        for (let item in firstChipMatchedGroup.result) {
+          if (firstChipMatchedGroup.result[item].slot !== null)
+            firstChipMatchedGroup.result[item].slot.pendingDestroy(firstChipMatchedGroup.result[item]);
         }
       }
 
       let secondChipMatchedGroup = this.m3e.matchSlot(this._secondSlot.mI, this._secondSlot.mJ);
       if (secondChipMatchedGroup.exist) {
-        for (let item of secondChipMatchedGroup.result) {
-          if (item.slot !== null)
-            item.slot.pendingDestroy(item);
+        for (let item in secondChipMatchedGroup.result) {
+          if (secondChipMatchedGroup.result[item].slot !== null)
+            secondChipMatchedGroup.result[item].slot.pendingDestroy(secondChipMatchedGroup.result[item]);
         }
       }
       if (firstChipMatchedGroup.exist || secondChipMatchedGroup.exist)
@@ -256,8 +256,8 @@ class TutorialAction extends Action {
       } else if (this.m3e.level.gameSettings.inputType == 'tap') {
         if (this._firstSlot != 'empty') {
 
-          for (let s of this.findMove.result) {
-            if (this.m3e.slotsEqual(this._firstSlot, s.slot) || this.m3e.slotsEqual(this.findMove.slot1, this._firstSlot) || this.m3e.slotsEqual(this.findMove.slot2, this._firstSlot)) {
+          for (let s in this.findMove.result) {
+            if (this.m3e.slotsEqual(this._firstSlot, this.findMove.result[s].slot) || this.m3e.slotsEqual(this.findMove.slot1, this._firstSlot) || this.m3e.slotsEqual(this.findMove.slot2, this._firstSlot)) {
               isDone = this.tapSlots();
               this.destroyStep2();
               break;

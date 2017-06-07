@@ -76,8 +76,8 @@ export default class Level {
 
     let recipesDone = true;
     if (this.gameType.mType === 'recipe') {
-      for (let r of this.gameType.recipesInfo) {
-        if (r.count > 0) recipesDone = false;
+      for (let r in this.gameType.recipesInfo) {
+        if (this.gameType.recipesInfo[r].count > 0) recipesDone = false;
       }
     }
     else
@@ -268,16 +268,16 @@ class RecipeGameType extends GameType {
     this._maxRecipeItems = 0;
     this._itemSettings = [];
     //console.log(params)
-    for (let p of params) {
+    for (let p in params) {
 
-      p = p.split('|');
-      let type = p[0];
-      let color = p[1];
-      p = p[2].split('-');
+      params[p] = params[p].split('|');
+      let type = params[p][0];
+      let color = params[p][1];
+      params[p] = params[p][2].split('-');
       //console.log(p, type)
 
       if (this._maxRecipeItems <= maxColors) {
-        this._itemSettings.push({min: parseInt(p[0]), max: parseInt(p[1]), type: type, color:color});
+        this._itemSettings.push({min: parseInt(params[p][0]), max: parseInt(params[p][1]), type: type, color:color});
         this._maxRecipeItems++;
       }
     }
@@ -309,8 +309,8 @@ class ChipSettings {
   }
 
   initSettings() {
-    for (let s of this._settings) {
-      let settings = s.split(',');
+    for (let s in this._settings) {
+      let settings = this._settings[s].split(',');
       let chipType = settings.shift();
 
       let canFall = this.getParams('f', settings);
@@ -332,9 +332,9 @@ class ChipSettings {
   }
 
   getParams(targetParam, data) {
-    for (let str of data) {
-      if (str.indexOf(targetParam) == 0) {
-        let result = str.split('=');
+    for (let str in data) {
+      if (data[str].indexOf(targetParam) == 0) {
+        let result = data[str].split('=');
         if (result.length > 1) {
           return {exist: true, result: parseInt(result[1])};
         }
@@ -351,12 +351,12 @@ class ChipSettings {
     let canSwap = true;
     let canMatch = true;
 
-    for (let s of this._chipSettings) {
-      if (s.chipType == type)
+    for (let s in this._chipSettings) {
+      if (this._chipSettings[s].chipType == type)
       {
-        canFall = s.canFall;
-        canSwap = s.canSwap;
-        canMatch = s.canMatch;
+        canFall = this._chipSettings[s].canFall;
+        canSwap = this._chipSettings[s].canSwap;
+        canMatch = this._chipSettings[s].canMatch;
       }
     }
 
